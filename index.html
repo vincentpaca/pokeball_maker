@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Pokéball Workshop — A Pixel Expedition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="game-frame">
+  <div id="screen-inner">
+
+    <!-- ===== TOP BAR ===== -->
+    <header id="topbar" class="hidden">
+      <div class="tb-item" id="tb-berries" title="Berries"><span class="tb-ic">●</span> <span data-val>0</span></div>
+      <div class="tb-item" id="tb-balls" title="Crafted Pokéballs"><span class="tb-ic">○</span> <span data-val>0</span></div>
+      <div class="tb-item" id="tb-dex" title="Pokédex caught"><span class="tb-ic">◆</span> <span data-val>0</span></div>      <div class="tb-item" id="tb-day" title="Expedition day"><span class="tb-ic">☀</span> Day <span data-val>1</span></div>
+      <button class="tb-item tb-mute" id="btn-mute" title="Music on/off"><span class="tb-ic">♪</span> <span id="mute-label">ON</span></button>
+    </header>
+
+    <!-- ===== TITLE SCREEN ===== -->
+    <section id="title-screen" class="screen">
+      <canvas id="title-canvas" width="384" height="288"></canvas>
+      <div class="title-overlay">
+        <h1 class="game-title">Pokéball<br>Workshop</h1>
+        <p class="game-sub">A Pixel Expedition</p>
+        <div class="title-menu">
+          <button class="pk-btn big" id="btn-new">New Game</button>
+          <button class="pk-btn big hidden" id="btn-continue">Continue</button>
+        </div>
+        <p class="title-hint">Craft balls • Leave them in the wild • Catch legends</p>
+      </div>
+    </section>
+
+    <!-- ===== WORKBENCH ===== -->
+    <section id="workbench-screen" class="screen hidden">
+      <div class="screen-head">
+        <h2>Workbench</h2>
+        <p class="screen-sub">Blend berries to forge a Pokéball.</p>
+      </div>
+      <div class="wb-grid">
+        <div class="wb-panel wb-berries">
+          <h3>Berries</h3>
+          <div id="berry-list" class="berry-list"></div>
+          <button class="pk-btn small" id="btn-forage">Forage Berries <span class="cd" id="forage-cd"></span></button>
+        </div>
+        <div class="wb-panel wb-cauldron">
+          <h3>Cauldron <span class="slot-count" id="slot-count">0/5</span></h3>
+          <div id="cauldron-slots" class="cauldron-slots"></div>
+          <canvas id="ball-preview" width="120" height="120"></canvas>
+          <div class="ball-stats" id="ball-stats">
+            <div>Catch <span class="bar"><i id="st-catch"></i></span></div>
+            <div>Lure&nbsp; <span class="bar"><i id="st-lure"></i></span></div>
+            <div>Rare&nbsp;&nbsp; <span class="bar"><i id="st-rare"></i></span></div>
+            <div>Myth&nbsp;&nbsp; <span class="bar"><i id="st-myth"></i></span></div>
+            <div>UB&nbsp;&nbsp;&nbsp;&nbsp; <span class="bar"><i id="st-ub"></i></span></div>
+          </div>
+          <div class="wb-actions">
+            <button class="pk-btn" id="btn-clear">Clear</button>
+            <button class="pk-btn primary" id="btn-craft">Craft Ball</button>
+          </div>
+          <p class="wb-tip" id="wb-tip">Add berries to see ball stats.</p>
+        </div>
+        <div class="wb-panel wb-stock">
+          <h3>Your Pokéballs</h3>
+          <div id="ball-inventory" class="ball-inventory"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MAP ===== -->
+    <section id="map-screen" class="screen hidden">
+      <div class="screen-head">
+        <h2>World Map</h2>
+        <p class="screen-sub" id="map-sub">Pick a biome, then a wild spot to leave a ball.</p>
+      </div>
+      <div class="map-wrap">
+        <canvas id="map-canvas" width="384" height="240"></canvas>
+        <div id="biome-chips" class="biome-chips"></div>
+      </div>
+      <div class="map-controls">
+        <div id="location-info" class="location-info">
+          <h3 id="loc-name">—</h3>
+          <p id="loc-desc">Select a biome to scout locations.</p>
+          <div id="loc-tags" class="loc-tags"></div>
+        </div>
+        <div id="place-panel" class="place-panel hidden">
+          <h4 id="place-title">Leave a Pokéball</h4>
+          <div id="place-balls" class="place-balls"></div>
+          <button class="pk-btn" id="btn-leave">Leave Ball Here</button>
+          <button class="pk-btn ghost" id="btn-cancel-place">Cancel</button>
+        </div>
+      </div>
+      <div class="expeditions" id="expeditions">
+        <h3>Active Expeditions</h3>
+        <div id="exp-list" class="exp-list"><p class="empty">No balls placed. Leave one in the wild!</p></div>
+      </div>
+    </section>
+
+    <!-- ===== POKEDEX ===== -->
+    <section id="pokedex-screen" class="screen hidden">
+      <div class="screen-head">
+        <h2>Pokédex</h2>
+        <p class="screen-sub" id="dex-sub">0 discovered</p>
+      </div>
+      <div id="dex-filters" class="dex-filters"></div>
+      <div id="dex-grid" class="dex-grid"></div>
+    </section>
+
+    <!-- ===== BOTTOM NAV ===== -->
+    <nav id="navbar" class="hidden">
+      <button data-screen="workbench" class="nav-btn active">Bench</button>
+      <button data-screen="map" class="nav-btn">Map</button>
+      <button data-screen="pokedex" class="nav-btn">Dex</button>
+    </nav>
+
+    <!-- ===== MODALS ===== -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+      <div id="modal-box" class="modal-box">
+        <div id="modal-content"></div>
+        <button class="pk-btn" id="modal-close">OK</button>
+      </div>
+    </div>
+
+    <!-- capture reveal overlay -->
+    <div id="capture-overlay" class="capture-overlay hidden">
+      <canvas id="capture-canvas" width="384" height="288"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/art.js"></script>
+<script src="js/music.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
