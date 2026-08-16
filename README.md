@@ -5,10 +5,10 @@ This game is Rio's very own concept. He wanted to build a game where you can com
 
 ## Screenshots
 
-![Pokeball Workshop - Start Screen](screenshots/pokeball-1.webp)
-![Pokeball Workshop - Game Start](screenshots/pokeball-2.webp)
-![Pokeball Workshop - Crafting](screenshots/pokeball-3.webp)
-![Pokeball Workshop - Gameplay](screenshots/pokeball-4.webp)
+![Pokeball Workshop - Workbench](screenshots/pokeball-1-workbench.webp)
+![Pokeball Workshop - Crafting Balls](screenshots/pokeball-2-crafting.webp)
+![Pokeball Workshop - Expedition Map](screenshots/pokeball-3-map.webp)
+![Pokeball Workshop - Pokedex](screenshots/pokeball-4-pokedex.webp)
 ## Run
 No build step needed — it's a static site. Just open `index.html` in a browser, or serve the directory with any static server:
 
